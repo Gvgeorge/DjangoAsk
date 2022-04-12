@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    question {{question.id}}
+{% endblock %}
+
+{% block content %}
+    <h3> {{question.title}} </h3> </br>
+    <div class="question-text">{{question.text}}</div>
+    <div class="question-author">Posted by: {{question.author}}</div>
+
+     <!-- like button -->
+    <form method="post" id="like-btn-form" data-url="{{ question.get_like_url }}">
+         {% csrf_token %}
+         <button type="button" class="btn btn-primary btn-sm fa-solid fa-thumbs-up"  id="like-btn" value="like">
+            {{ question.get_total_rating }}
+         </button>
+    </form>
+
+    {% if request.user == question.author %}
+        <div class="float-right">
+            <a href="{{ question.get_delete_url }}">
+                <button type="submit" class="btn btn-primary">
+                    Delete.
+                </button>
+            </a>
+        </div>
+        <div class="float-right">
+            <a href="{{ question.get_update_url }}">
+                <button type="submit" class="btn btn-primary">
+                    Edit.
+                </button>
+            </a>
+        </div>
+
+    {% endif %}
+
+
+
+    </br>
+    <h3>Answers:</h3>
+    {% for answer in answers %}
+        <div class="answer-text">{{ answer.text }}</div>
+        <div class="answer-date"><a href="{{ answer.get_absolute_url }}">{{ answer.added_at }}</a></div>
+        <div class="answer-author">Posted by: {{ answer.author }}</div>
+
+        </br>
+    {% endfor %}
+
+    Add your own answer:
+
+    {% for e in answer_form.non_field_errors %}
+        <div class="alert alert-danger">{{ e }}</div>
+    {% endfor %}
+    <form class="form-horizontal" method="post" action={{question.get_absolute_url}}>
+        {% csrf_token %}
+        <fieldset>
+            {% for field in answer_form %}
+            <div class="control-group {% if field.errors %}has-error{% endif %}">
+                 {% if field.errors %}{{field.errors}}{% endif %}
+                <label class="control-label">{{ field.label }}</label>
+                <div class="controls">{{ field }}</div>
+            </div>
+            {% endfor %}
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Save
+            </button>
+        </div>
+    </form>
+<script src="{% static 'js/main.js'  %}">   </script>
+{% endblock %}
+
+
+

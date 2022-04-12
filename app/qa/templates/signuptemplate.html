@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Регистрация
+{% endblock %}
+
+{% block content %}
+    <h3>Sign up</h3>
+
+    {% for e in sign_up_form.non_field_errors %}
+        <div class="alert alert-danger">{{ e }}</div>
+    {% endfor %}
+    <form class="form-horizontal" method="post" action=''>
+        {% csrf_token %}
+        <fieldset>
+            {% for field in sign_up_form %}
+            <div class="control-group {% if field.errors %}has-error{% endif %}">
+                 {% if field.errors %}{{field.errors}}{% endif %}
+                <label class="control-label">{{ field.label }}</label>
+                <div class="controls">{{ field }}</div>
+            </div>
+            {% endfor %}
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary mt-3">
+                Сохранить
+            </button>
+        </div>
+    </form>
+{% endblock %}

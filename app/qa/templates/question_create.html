@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Создать вопрос
+{% endblock %}
+
+{% block content %}
+    {% for e in question_form.non_field_errors %}
+        <div class="alert alert-danger">{{ e }}</div>
+    {% endfor %}
+    <form class="form-horizontal" method="post" action={{ question_url }}>
+        {% csrf_token %}
+        <fieldset>
+            {% for field in question_form %}
+            <div class="control-group {% if field.errors %}has-error{% endif %}">
+                 {% if field.errors %}{{field.errors}}{% endif %}
+                <label class="control-label">{{ field.label }}</label>
+                <div class="controls">{{ field }}</div>
+            </div>
+            {% endfor %}
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Сохранить
+            </button>
+        </div>
+    </form>
+{% endblock %}

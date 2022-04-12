@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    answer {{answer.id}}
+{% endblock %}
+
+{% block content %}
+
+    <h3>Answer # {{ answer.id }} for the question "{{answer.question}}"</h3>
+
+        <div class="answer-text">{{ answer.text }}</div>
+        <div class="answer-date">{{ answer.added_at }}</div>
+        <div class="answer-author">{{ answer.author }}</div>
+
+{% endblock %}
